@@ -1,15 +1,22 @@
 const express = require("express");
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 
-app.use((request, response, next) => {
-  next();
+app.use("/add-product", (req, res, next) => {
+  res.send(
+    '<form action = "/product" method = "POST"><input type="text" name="title" placeholder ="name of product" /><br><br><input type = "number" name = "size" placeholder = "Enter size of product"><br><br><button type="submit">Add</button></form>'
+  );
 });
 
-app.use((request, response, next) => {
-  response.send("<h1> This is hello from Express</h1>");
+app.use("/product", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/");
 });
 
+app.use("/", (req, res, next) => {
+  res.send("<h1>This is home page</h1>");
+});
 const port = 3000;
 
 app.listen(port, () => {
